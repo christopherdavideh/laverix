@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps('create_at');
             $table->timestamps('update_at');
+            $table->timestamps('last_conexion');
         });
     }
 
