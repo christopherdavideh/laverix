@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +26,8 @@ Route::get('/dashboard', function () {
 
 //Route::get('/roles', [RoleController::class, 'index'])->name('roles');
 Route::resource('roles', RoleController::class);
+Route::resource('users', UserController::class);
+Route::resource('profiles', UserRoleController::class);
 
 require __DIR__.'/auth.php';
 

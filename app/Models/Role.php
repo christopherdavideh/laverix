@@ -12,14 +12,5 @@ class Role extends Model
 
     protected $fillable = ['id', 'role'];
     //protected $hidden = ['id'];
-
-    public function ObtenerRol()
-    {
-        return Role::where("status","=",1)->paginate(2);
-    }
-
-    public function ObtenerRolPorId($id)
-    {
-        return Role::find($id);
-    }
+    
 }

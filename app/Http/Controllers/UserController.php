@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SaveUserRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 use App\Models\User;
 use App\Models\UserRole;
 use DB;
 
-class UserRoleController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     protected $users;
     protected $roles;
     public function __construct()
@@ -29,7 +33,11 @@ class UserRoleController extends Controller
             'last_conexion' => date('Y-m-d H:i:s'),
         ]);
         $userQuery = User::query();
-        $userQuery->where('names', 'like', '%'.request('q').'%')->orWhere('lastnames', 'like', '%'.request('q').'%')->where('status', '=', 1);
+        $userQuery->where('status', '=', 1);
+        if(request('q') != "" || request('q') != null)
+        {
+            $userQuery->Where('names', 'like', '%'.request('q').'%')->orWhere('lastnames', 'like', '%'.request('q').'%');
+        }
         $users = $userQuery->paginate(2);
         return view('users.index', compact('users'));
     }
@@ -42,8 +50,8 @@ class UserRoleController extends Controller
     public function create()
     {
         //$roleQuery = query();
-        $roles = DB::table('roles')->where('status', '=', 1)->get();
-        return view('users.create', compact('roles'));
+        //$roles = DB::table('roles')->where('status', '=', 1)->get();
+        return view('users.create');
     }
 
     /**
@@ -62,7 +70,6 @@ class UserRoleController extends Controller
             'birth' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'roles' => ['required'],
         ]);
         //$newuser->last_conexion = date('Y-m-d H:i:s');
         $user = User::create([
@@ -78,19 +85,21 @@ class UserRoleController extends Controller
         //$roles = $request->get('roles');
         if($user)
         {
-            $roles = $request->roles;
+            /*$roles = $request->roles;
             $user_id = User::where('status', '=', 1)->get()->last();
             foreach ($roles as $item){
                 $data = [
                     ['user_id'=> intval($user_id->id), 'role_id'=> intval($item), 'created_at'=> date('Y-m-d H:i:s'), 'updated_at'=> date('Y-m-d H:i:s')]
                 ];  
-                DB::table('user_roles')->insert($data);     
-            }
+                DB::table('user_roles')->insert($data);  
+
+            }*/
+            return redirect()->route('users.index')->with('status', __('Usuario creado correctamente.'));
         }
         //DB::table('user_roles')->insert($data);  
         //$user = User::create($newuser);        
 
-        return redirect()->route('users.index')->with('status', __('Usuario creado correctamente.'));
+        
     }
 
     /**
@@ -126,34 +135,54 @@ class UserRoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveUserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
-        $request->validate([
-            'names' => ['required', 'string', 'max:50'],
-            'lastnames' => ['required', 'string', 'max:50'],
-            'phone' => ['required', 'string', 'max:11'],
-            'address' => ['required', 'string', 'max:255'],
-            'birth' => ['required', 'date'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'roles' => ['required'],
-        ]);
-        $userData = $request;
-        $user->update($userData);
-        if($user)
+        
+        if($request->password == "" || $request->password==null)
         {
-            $roles = $request->roles;
-            $user_id = $request->id;
-            $delete = DB::table('user_roles')->where('user_id', $user_id)->delete();
-            foreach ($roles as $item){
-                $data = [
-                    ['user_id'=> intval($user_id->id), 'role_id'=> intval($item), 'created_at'=> date('Y-m-d H:i:s'), 'updated_at'=> date('Y-m-d H:i:s')]
-                ];  
-                DB::table('user_roles')->insert($data);     
-            }
+            $this->validate($request,[
+                'names' => ['required', 'string', 'max:50'],
+                'lastnames' => ['required', 'string', 'max:50'],
+                'phone' => ['required', 'string', 'max:11'],
+                'address' => ['required', 'string', 'max:255'],
+                'birth' => ['required', 'date'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+            ]);
+            $userData = [
+                'names' => $request->names,
+                'lastnames' => $request->lastnames,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'birth' => $request->birth,
+                'email' => $request->email,
+            ];
         }
-
+        else
+        {
+            $this->validate($request,[
+                'names' => ['required', 'string', 'max:50'],
+                'lastnames' => ['required', 'string', 'max:50'],
+                'phone' => ['required', 'string', 'max:11'],
+                'address' => ['required', 'string', 'max:255'],
+                'birth' => ['required', 'date'],
+                'email' => ['required', 'string', 'email', 'max:255'],
+                'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            ]);
+            $userData = [
+                'names' => $request->names,
+                'lastnames' => $request->lastnames,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'birth' => $request->birth,
+                'email' => $request->email,                
+                'password' => Hash::make($request->password),
+            ];
+        }
+        
+        $user->update($userData);
         return redirect()->route('users.index')->with('status', __('Usuario actualizado corectamente.'));
+
+        
     }
 
     /**
@@ -165,10 +194,10 @@ class UserRoleController extends Controller
     public function destroy(Request $request, User $user)
     {
         //Borrado Logico
-        $delete = DB::table('roles')->where('id', $request->role_id)->update(['status' => 0 ]);
+        $delete = DB::table('users')->where('id', $request->user_id)->update(['status' => 0 ]);
         if($delete)
         {            
-            return redirect()->route('roles.index')->with('status', __('Usuario borrado correctamente.'));
+            return redirect()->route('users.index')->with('status', __('Usuario borrado correctamente.'));
         }
     }
 }

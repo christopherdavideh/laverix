@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\SaveRoleRequest;
 use App\Models\Role;
+use App\Models\User;
+use DB;
 
 class RoleController extends Controller
 {
@@ -18,12 +21,15 @@ class RoleController extends Controller
     {
         //$this->roles = $roles;
         $this->middleware('auth');
+        
     }
     public function index()
     {
+        
         $roleQuery = Role::query();
-        $roleQuery->where('role', 'like', '%'.request('q').'%');
+        $roleQuery->where('role', 'like', '%'.request('q').'%')->where('status', '=', 1);
         $roles = $roleQuery->paginate(2);
+        
         return view('roles.index', compact('roles'));
     }
 
@@ -43,14 +49,14 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveRoleRequest $request)
     {
         /*$role = new Role($request->all());
         $role->save();
         return redirect()->action([RoleController::class, 'index']);*/
-        $role = Role::create($request);
-
-        return redirect()->route('roles.show', $role)->with('status', __('Rol has been created successfully.'));
+        $newRole = $request->validated();
+        $role = Role::create($newRole);
+        return redirect()->route('roles.index')->with('status', __('Rol creado correctamente.'));
     }
 
     /**
@@ -86,16 +92,16 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(SaveRoleRequest $request, Role $role)
     {
         /*$role = Role::find($id);
         $role->fill($request->all());
         $role->save();
         return redirect()->action([RoleController::class, 'index']);*/
         $roleData = $request->validated();
-        $role->update($roletData);
+        $role->update($roleData);
 
-        return redirect()->route('roles.show', $role)->with('status', __('Local has been updated successfully.'));
+        return redirect()->route('roles.index')->with('status', __('Rol actualizado correctamente.'));
     }
 
     /**
@@ -107,18 +113,10 @@ class RoleController extends Controller
     public function destroy(Request $request, Role $role)
     {
         //Borrado Logico
-        /*$role = Role::find($id);
-        $role->fill($request->status(0));
-        $role->save();
-        return redirect()->action([RoleController::class, 'index']);*/
-        $request->validate();
-        $request->status=0;
-        $roleData = $request;
-
-        if ($request->update($roletData)) {
-            return redirect()->route('roles.index')->with('status', __('Local has been deleted successfully.'));
+        $delete = DB::table('roles')->where('id', $request->role_id)->update(['status' => 0 ]);
+        if($delete)
+        {            
+            return redirect()->route('roles.index')->with('status', __('Rol borrado correctamente.'));
         }
-
-        return back();
     }
 }
