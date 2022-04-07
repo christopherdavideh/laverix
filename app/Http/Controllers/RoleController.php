@@ -21,6 +21,7 @@ class RoleController extends Controller
     {
         //$this->roles = $roles;
         $this->middleware('auth');
+        $this->middleware('admin');
         
     }
     public function index()

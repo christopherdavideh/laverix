@@ -198,6 +198,8 @@ class UserController extends Controller
         if($delete)
         {            
             return redirect()->route('users.index')->with('status', __('Usuario borrado correctamente.'));
+        }else{
+            return redirect()->route('users.index')->with('error', __('Usuario no existe.'));        
         }
     }
 }

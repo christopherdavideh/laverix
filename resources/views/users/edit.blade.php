@@ -54,6 +54,7 @@
                             <input id="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email', $user->email) }}">
                         </div>
                         <!-- Password -->
+                        
                         <div class="mt-4">
                             <x-label for="password" :value="__('Password')" />
                             {!! $errors->first('nombre_com', '<span class="invalid-feedback" role="alert" style=" color: red">:message</span>') !!}
@@ -62,7 +63,7 @@
                                             name="password"
                                              autocomplete="new-password" />
                         </div>
-
+                        <small>* Si deja vacío el campo password, este no se actualizará y se mantendrá el password actual.</small>
                         <!-- Confirm Password -->
                         <div class="mt-4">
                             <x-label for="password_confirmation" :value="__('Confirm Password')" />
@@ -77,7 +78,7 @@
                             <input type="submit" class="btn btn-lg btn-outline-primary" value="{{ __('Actualizar') }}"/>
                                 
                             </button>
-                            <a href="{{ route('roles.index') }}" class="ml-3 btn btn-outline-danger btn-lg">Cancelar</a>
+                            <a href="{{ route('users.index') }}" class="ml-3 btn btn-outline-danger btn-lg">Cancelar</a>
                         </div>
                     </form>
                 </div>

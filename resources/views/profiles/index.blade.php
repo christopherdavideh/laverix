@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Usuarios') }}
+            {{ __('Roles de Usuarios') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -20,9 +20,8 @@
                                 <input placeholder="Nombres o Apellidos" name="q" type="text" id="q" class="form-control" value="{{ request('q') }}" style="width: 100%">                            
                             </div>
                             <div class="col-md-5 col-sm-12 col-lg-5 mt-2">
-                                <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>                                
-                                <a class="btn btn-outline-success m-6" href="{{ route('users.create') }}"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo</a> 
-                                <a href="{{ route('users.index') }}" class="btn btn-outline-info"><i class="fa fa-refresh" aria-hidden="true"></i> Restablecer</a>   
+                                <button type="submit" class="btn btn-outline-primary"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+                                <a href="{{ route('profiles.index') }}" class="btn btn-outline-info"><i class="fa fa-refresh" aria-hidden="true"></i> Restablecer</a>   
                             </div>
                             
                         </div>
@@ -45,32 +44,26 @@
                                 <th>#</th>
                                 <th>Nombres</th> 
                                 <th>Apellidos</th> 
-                                <th>Telefono</th> 
-                                <th>Direccion</th> 
                                 <th>Correo</th> 
-                                <th>Fecha Nacimiento</th>
                                 <th>Roles</th>
                                 <th>Acciones</th>  
                             <tr>
                         </thead>    
                         <tbody>  
-                            @forelse($users as $key => $user)
+                            @forelse($profiles as $key => $profile)
                                 <tr>
-                                    <td class="text-center">{{ $users->firstItem() + $key }}</td>
-                                    <td>{!! $user->names !!}</td>
-                                    <td>{!! $user->lastnames !!}</td>
-                                    <td>{!! $user->phone !!}</td>
-                                    <td>{!! $user->address !!}</td>
-                                    <td>{!! $user->email !!}</td>
-                                    <td>{!! $user->birth !!}</td>
-                                    <td>{!! $user->names !!}</td>
+                                    <td class="text-center">{{ $profiles->firstItem() + $key }}</td>
+                                    <td>{!! $profile->names !!}</td>
+                                    <td>{!! $profile->lastnames !!}</td>
+                                    <td>{!! $profile->email !!}</td>
+                                    <td>{!! $profile->names !!}</td>
                                     <td class="text-center">
-                                        <!--<a href="{{ route('users.show', $user->id) }}" id="show-user-{{ $user->id }}" class="btn btn-outline-primary" title="Ver más"><i class="fa fa-eye" aria-hidden="true"></i></a>-->
-                                        <a href="{{ route('users.edit', $user->id) }}" id="edit-user-{{ $user->id }}" class="btn btn-outline-info"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                                        <form method="POST" action="{{ route('users.destroy', $user) }}" accept-charset="UTF-8" onsubmit="return confirm(&quot;{{ __('¿Estas seguro de eliminar esto?') }}&quot;)" class="del-form float-right" style="display: inline;">
+                                        <!--<a href="{{ route('profiles.create', $profile->id) }}" id="create-user-{{ $profile->id }}" class="btn btn-outline-success" title="Asignar Roles"><i class="fa fa-plus" aria-hidden="true"></i></a>-->
+                                        <a href="{{ route('profiles.edit', $profile->id) }}" id="edit-user-{{ $profile->id }}" class="btn btn-outline-info" title="Asignar Roles"><i class="fa fa-edit" aria-hidden="true"></i></a>
+                                        <form method="POST" action="{{ route('profiles.destroy', $profile) }}" accept-charset="UTF-8" onsubmit="return confirm(&quot;{{ __('¿Estas seguro de eliminar todos los roles del usuario?') }}&quot;)" class="del-form float-right" style="display: inline;">
                                             {{ csrf_field() }} {{ method_field('delete') }}
-                                            <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>
-                                            <input type="hidden" name="user_id" id="user_id" value="{{ old('user', $user->id) }}"/>
+                                            <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash" aria-hidden="true" title="Borrar Roles"></i></button>
+                                            <input type="hidden" name="user_id" id="user_id" value="{{ old('user', $profile->id) }}"/>
                                         </form>
                                     </td>
                                 </tr>
@@ -86,7 +79,7 @@
                         <tbody>
                     <table> 
                 </div>
-                <div class="card-body" style="float: none; text-align: center;">{{ $users->appends(Request::except('page'))->render() }}</div>
+                <div class="card-body" style="float: none; text-align: center;">{{ $profiles->appends(Request::except('page'))->render() }}</div>
             </div>
         </div>
     </div>
