@@ -19,47 +19,101 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Laverix
 
-## Learning Laravel
+Aplicación web con Laravel 9 con las siguientes funcionalidades requeridas:
+- Inicio de sesión
+- Cerrar sesión
+- Recuperación/Cambio de contraseña
+- Gestión de Roles. (CRUD). Sólo para usuarios administradores
+- Asignación de permisos
+- Gestión completa de usuarios (CRUD). 
+o Nombres
+o Apellidos
+o Teléfono
+o Dirección
+o Fecha de nacimiento
+o Fecha de nacimiento
+o Selección múltiple de Roles
+- Mensaje de notificación de las acciones del CRUD vía email.
+- Búsqueda de usuarios por nombres y/o apellidos.
+- Incluir paginado de usuarios.
+- Incluir un usuario administrador por defecto con permiso para gestionar todo.
+- Realizar validaciones de los formularios en el backend
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Instalacion
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Requiere tener instalado xamp o laragon que soporte php 8.0 o superior
+- Instalar composer
+- Tener instalado nodeJS v14 o superior para correr comandos npm
+- Crear la base de datos con el nombre de laverix en MySQL
+- Para configurar correo con [Gmail](https://programacionymas.com/blog/como-enviar-mails-correos-desde-laravel#:~:text=Para%20dar%20la%20orden%20a,su%20orden%20ha%20sido%20enviada.).
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Configurar el archivo .env pueden usar siguiente guia
 
-### Premium Partners
+```sh
+    APP_NAME=Laverix
+	APP_ENV=local
+	APP_KEY=base64:/miU/8FvQpxcF4oQTxtdvF4UEK45maVq758tE11ezSM=
+	APP_DEBUG=true
+	APP_URL=http://localhost
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+	LOG_CHANNEL=stack
+	LOG_DEPRECATIONS_CHANNEL=null
+	LOG_LEVEL=debug
 
-## Contributing
+	DB_CONNECTION=mysql
+	DB_HOST=127.0.0.1
+	DB_PORT=3306
+	DB_DATABASE=laverix
+	DB_USERNAME=root
+	DB_PASSWORD=
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+	BROADCAST_DRIVER=log
+	CACHE_DRIVER=file
+	FILESYSTEM_DRIVER=local
+	QUEUE_CONNECTION=sync
+	SESSION_DRIVER=file
+	SESSION_LIFETIME=120
 
-## Code of Conduct
+	MEMCACHED_HOST=127.0.0.1
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+	REDIS_HOST=127.0.0.1
+	REDIS_PASSWORD=null
+	REDIS_PORT=6379
 
-## Security Vulnerabilities
+	MAIL_DRIVER=smtp
+	MAIL_HOST=smtp.gmail.com
+	MAIL_PORT=587
+	MAIL_USERNAME=chisk9@gmail.com
+	MAIL_PASSWORD=clave a generar en la configuracion de google
+	MAIL_ENCRYPTION=tls
+	MAIL_FROM_ADDRESS=chisk9@gmail.com //tu correo
+	MAIL_FROM_NAME="${APP_NAME}"
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+	AWS_ACCESS_KEY_ID=
+	AWS_SECRET_ACCESS_KEY=
+	AWS_DEFAULT_REGION=us-east-1
+	AWS_BUCKET=
+	AWS_USE_PATH_STYLE_ENDPOINT=false
 
-## License
+	PUSHER_APP_ID=
+	PUSHER_APP_KEY=
+	PUSHER_APP_SECRET=
+	PUSHER_APP_CLUSTER=mt1
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-"# laverix" 
+	MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+	MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+```
+
+Deben ejecutar el comando dentro del proyecto por consola para la creacion de la base de datos y llenar con datos por defecto:
+
+```sh
+    composer install
+	composer dump-autoload
+	php artisan migrate:install
+	php artisan migrate:fresh --seed
+    usuario admin es: admin@gmail.com
+    password: admin.2022
+```
