@@ -9,6 +9,8 @@ use Illuminate\Validation\Rules;
 use App\Models\User;
 use App\Models\UserRole;
 use DB;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -85,15 +87,16 @@ class UserController extends Controller
         //$roles = $request->get('roles');
         if($user)
         {
-            /*$roles = $request->roles;
-            $user_id = User::where('status', '=', 1)->get()->last();
-            foreach ($roles as $item){
-                $data = [
-                    ['user_id'=> intval($user_id->id), 'role_id'=> intval($item), 'created_at'=> date('Y-m-d H:i:s'), 'updated_at'=> date('Y-m-d H:i:s')]
-                ];  
-                DB::table('user_roles')->insert($data);  
-
-            }*/
+            $email= User::where('id','=',auth()->id())->get();
+            foreach($email as $item)
+            {
+                $emailTo= $item->email;
+            }
+            $data = array(
+                'name'      =>  "Notificacion de Ingreso de datos",
+                'message'   =>   "Se ha ingresado un nuevo usuario a la plataforma"
+            );
+            Mail::to($emailTo)->send(new SendMail($data));        
             return redirect()->route('users.index')->with('status', __('Usuario creado correctamente.'));
         }
         //DB::table('user_roles')->insert($data);  
@@ -178,6 +181,17 @@ class UserController extends Controller
                 'password' => Hash::make($request->password),
             ];
         }
+
+        $email= User::where('id','=',auth()->id())->get();
+        foreach($email as $item)
+        {
+            $emailTo= $item->email;
+        }
+        $data = array(
+            'name'      =>  "Notificación de Actualización de datos",
+            'message'   =>   "Se ha actualizado un usuario de la plataforma"
+        );
+        Mail::to($emailTo)->send(new SendMail($data));
         
         $user->update($userData);
         return redirect()->route('users.index')->with('status', __('Usuario actualizado corectamente.'));
@@ -196,7 +210,17 @@ class UserController extends Controller
         //Borrado Logico
         $delete = DB::table('users')->where('id', $request->user_id)->update(['status' => 0 ]);
         if($delete)
-        {            
+        {     
+            $email= User::where('id','=',auth()->id())->get();
+            foreach($email as $item)
+            {
+                $emailTo= $item->email;
+            }
+            $data = array(
+                'name'      =>  "Notificación de Eliminacion de datos",
+                'message'   =>   "Se ha eliminado un usuario de la plataforma"
+            );
+            Mail::to($emailTo)->send(new SendMail($data));         
             return redirect()->route('users.index')->with('status', __('Usuario borrado correctamente.'));
         }else{
             return redirect()->route('users.index')->with('error', __('Usuario no existe.'));        

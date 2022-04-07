@@ -7,6 +7,8 @@ use App\Http\Requests\SaveRoleRequest;
 use App\Models\Role;
 use App\Models\User;
 use DB;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class RoleController extends Controller
 {
@@ -52,11 +54,20 @@ class RoleController extends Controller
      */
     public function store(SaveRoleRequest $request)
     {
-        /*$role = new Role($request->all());
-        $role->save();
-        return redirect()->action([RoleController::class, 'index']);*/
+        
         $newRole = $request->validated();
-        $role = Role::create($newRole);
+        $role = Role::create($newRole);        
+        
+        $email= User::where('id','=',auth()->id())->get();
+        foreach($email as $item)
+        {
+            $emailTo= $item->email;
+        }
+        $data = array(
+            'name'      =>  "Notificación de Ingreso de datos",
+            'message'   =>   "Se ha ingresado un nuevo rol a la plataforma"
+        );
+        Mail::to($emailTo)->send(new SendMail($data));
         return redirect()->route('roles.index')->with('status', __('Rol creado correctamente.'));
     }
 
@@ -101,6 +112,17 @@ class RoleController extends Controller
         return redirect()->action([RoleController::class, 'index']);*/
         $roleData = $request->validated();
         $role->update($roleData);
+        
+        $email= User::where('id','=',auth()->id())->get();
+        foreach($email as $item)
+        {
+            $emailTo= $item->email;
+        }
+        $data = array(
+            'name'      =>  "Notificación de Actualización de datos",
+            'message'   =>   "Se ha actualizado un rol de la plataforma"
+        );
+        Mail::to($emailTo)->send(new SendMail($data));
 
         return redirect()->route('roles.index')->with('status', __('Rol actualizado correctamente.'));
     }
@@ -116,7 +138,17 @@ class RoleController extends Controller
         //Borrado Logico
         $delete = DB::table('roles')->where('id', $request->role_id)->update(['status' => 0 ]);
         if($delete)
-        {            
+        {
+            $email= User::where('id','=',auth()->id())->get();
+            foreach($email as $item)
+            {
+                $emailTo= $item->email;
+            }
+            $data = array(
+                'name'      =>  "Notificación de Eliminacion de datos",
+                'message'   =>   "Se ha eliminado un rol de la plataforma"
+            );
+            Mail::to($emailTo)->send(new SendMail($data));            
             return redirect()->route('roles.index')->with('status', __('Rol borrado correctamente.'));
         }
     }

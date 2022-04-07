@@ -56,7 +56,15 @@
                                     <td>{!! $profile->names !!}</td>
                                     <td>{!! $profile->lastnames !!}</td>
                                     <td>{!! $profile->email !!}</td>
-                                    <td>{!! $profile->names !!}</td>
+                                    <td>
+                                        @forelse($roles as $key => $role)
+                                            @if($profile->id == $role->user_id)
+                                                {!! $role->role !!}<br>
+                                            @endif
+                                        @empty
+                                            Sin Roles
+                                        @endforelse
+                                    </td>
                                     <td class="text-center">
                                         <!--<a href="{{ route('profiles.create', $profile->id) }}" id="create-user-{{ $profile->id }}" class="btn btn-outline-success" title="Asignar Roles"><i class="fa fa-plus" aria-hidden="true"></i></a>-->
                                         <a href="{{ route('profiles.edit', $profile->id) }}" id="edit-user-{{ $profile->id }}" class="btn btn-outline-info" title="Asignar Roles"><i class="fa fa-edit" aria-hidden="true"></i></a>

@@ -7,6 +7,8 @@ use App\Http\Requests\SaveUserRoleRequest;
 use App\Models\User;
 use App\Models\UserRole;
 use DB;
+use App\Mail\SendMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserRoleController extends Controller
 {
@@ -33,7 +35,10 @@ class UserRoleController extends Controller
             $userQuery->Where('names', 'like', '%'.request('q').'%')->orWhere('lastnames', 'like', '%'.request('q').'%');
         }
         $profiles = $userQuery->paginate(2);
-        return view('profiles.index', compact('profiles'));
+
+        $roles = DB::table('user_roles')->join("roles","user_roles.role_id","=","roles.id")->get();
+
+        return view('profiles.index', compact('profiles', 'roles'));
     }
 
     /**
@@ -113,6 +118,17 @@ class UserRoleController extends Controller
             if ($count>0){
                 $update = DB::table('users')->where('id', $request->user_id)->update(['admin' => 1 ]);
             }
+
+            $email= User::where('id','=',auth()->id())->get();
+            foreach($email as $item)
+            {
+                $emailTo= $item->email;
+            }
+            $data = array(
+                'name'      =>  "Notificación de Ingreso de datos",
+                'message'   =>   "Se ha asignaron roles a un usuario"
+            );
+            Mail::to($emailTo)->send(new SendMail($data));
             return redirect()->route('profiles.index')->with('status', __('Roles asignados corectamente.'));
         }else{
             $delete = DB::table('user_roles')->where('user_id', $request->user_id)->delete();
@@ -134,6 +150,17 @@ class UserRoleController extends Controller
                 if ($count>0){
                     $update = DB::table('users')->where('id', $request->user_id)->update(['admin' => 1 ]);
                 }
+
+                $email= User::where('id','=',auth()->id())->get();
+                foreach($email as $item)
+                {
+                    $emailTo= $item->email;
+                }
+                $data = array(
+                    'name'      =>  "Notificación de Ingreso de datos",
+                    'message'   =>   "Se han asignado roles a un usuario"
+                );
+                Mail::to($emailTo)->send(new SendMail($data));
                 return redirect()->route('profiles.index')->with('status', __('Roles asignados corectamente.'));
             }else{
                 return redirect()->route('profiles.index')->with('error', __('Roles no se han asignado.'));
@@ -155,7 +182,17 @@ class UserRoleController extends Controller
         //Borrado Logico
         $delete = DB::table('user_roles')->where('user_id', $request->user_id)->delete();
         if($delete)
-        {            
+        {    
+            $email= User::where('id','=',auth()->id())->get();
+            foreach($email as $item)
+            {
+                $emailTo= $item->email;
+            }
+            $data = array(
+                'name'      =>  "Notificación de Eliminacion de datos",
+                'message'   =>   "Se han eliminado roles de un usuario"
+            );
+            Mail::to($emailTo)->send(new SendMail($data));          
             return redirect()->route('profiles.index')->with('status', __('Usuario borrado correctamente.'));
         }else{
             return redirect()->route('profiles.index')->with('error', __('Usuario sin roles.'));
