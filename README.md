@@ -21,14 +21,14 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 ### Laverix
 
-Laplicación web con Laravel 9 con las siguientes funcionalidades requeridas:
+Aplicación web con Laravel 9 con las siguientes funcionalidades requeridas:
 - Inicio de sesión
 - Cerrar sesión
 - Recuperación/Cambio de contraseña
 - Gestión de Roles. (CRUD). Sólo para usuarios administradores
 - Asignación de permisos
--Gestión completa de usuarios (CRUD). 
-oNombres
+- Gestión completa de usuarios (CRUD). 
+o Nombres
 o Apellidos
 o Teléfono
 o Dirección
@@ -41,14 +41,19 @@ o Selección múltiple de Roles
 - Incluir un usuario administrador por defecto con permiso para gestionar todo.
 - Realizar validaciones de los formularios en el backend
 
-# Instalacion
+## Instalacion
 
 - Requiere tener instalado xamp o laragon que soporte php 8.0 o superior
 - Instalar composer
 - Tener instalado nodeJS v14 o superior para correr comandos npm
-- Crear la base de datos con el nombre de laverix
-- Configurar el archivo .env pueden usar la mia para guiarse
-	PP_NAME=Laverix
+- Crear la base de datos con el nombre de laverix en MySQL
+- Para configurar correo con [Gmail](https://programacionymas.com/blog/como-enviar-mails-correos-desde-laravel#:~:text=Para%20dar%20la%20orden%20a,su%20orden%20ha%20sido%20enviada.).
+
+
+- Configurar el archivo .env pueden usar siguiente guia
+
+```sh
+    APP_NAME=Laverix
 	APP_ENV=local
 	APP_KEY=base64:/miU/8FvQpxcF4oQTxtdvF4UEK45maVq758tE11ezSM=
 	APP_DEBUG=true
@@ -82,9 +87,9 @@ o Selección múltiple de Roles
 	MAIL_HOST=smtp.gmail.com
 	MAIL_PORT=587
 	MAIL_USERNAME=chisk9@gmail.com
-	MAIL_PASSWORD=ufvxovqmnxgninnh
+	MAIL_PASSWORD=clave a generar en la configuracion de google
 	MAIL_ENCRYPTION=tls
-	MAIL_FROM_ADDRESS=chisk9@gmail.com
+	MAIL_FROM_ADDRESS=chisk9@gmail.com //tu correo
 	MAIL_FROM_NAME="${APP_NAME}"
 
 	AWS_ACCESS_KEY_ID=
@@ -100,10 +105,15 @@ o Selección múltiple de Roles
 
 	MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 	MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
-- Deben ejecutar el comando dentro del proyecto por consola para la creacion de la base de datos y llenar con datos por defecto:
-	composer install
+```
+
+Deben ejecutar el comando dentro del proyecto por consola para la creacion de la base de datos y llenar con datos por defecto:
+
+```sh
+    composer install
 	composer dump-autoload
 	php artisan migrate:install
 	php artisan migrate:fresh --seed
-- el usuario es admin@gmail.com
-- pass: admin.2022
+    usuario admin es: admin@gmail.com
+    password: admin.2022
+```
