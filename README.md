@@ -53,67 +53,68 @@ o Selección múltiple de Roles
 - Configurar el archivo .env pueden usar siguiente guia
 
 ```sh
-    APP_NAME=Laverix
-	APP_ENV=local
-	APP_KEY=base64:/miU/8FvQpxcF4oQTxtdvF4UEK45maVq758tE11ezSM=
-	APP_DEBUG=true
-	APP_URL=http://localhost
+APP_NAME=Laverix
+APP_ENV=local
+APP_KEY=base64:/miU/8FvQpxcF4oQTxtdvF4UEK45maVq758tE11ezSM=
+APP_DEBUG=true
+APP_URL=http://localhost
 
-	LOG_CHANNEL=stack
-	LOG_DEPRECATIONS_CHANNEL=null
-	LOG_LEVEL=debug
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
 
-	DB_CONNECTION=mysql
-	DB_HOST=127.0.0.1
-	DB_PORT=3306
-	DB_DATABASE=laverix
-	DB_USERNAME=root
-	DB_PASSWORD=
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laverix
+DB_USERNAME=root
+DB_PASSWORD=
 
-	BROADCAST_DRIVER=log
-	CACHE_DRIVER=file
-	FILESYSTEM_DRIVER=local
-	QUEUE_CONNECTION=sync
-	SESSION_DRIVER=file
-	SESSION_LIFETIME=120
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DRIVER=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
 
-	MEMCACHED_HOST=127.0.0.1
+MEMCACHED_HOST=127.0.0.1
+REDIS_HOST=127.0.0.1
+REDIS_PASSWORD=null
+REDIS_PORT=6379
 
-	REDIS_HOST=127.0.0.1
-	REDIS_PASSWORD=null
-	REDIS_PORT=6379
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=chisk9@gmail.com
+MAIL_PASSWORD=clave a generar en la configuracion de google
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=chisk9@gmail.com //tu correo
+MAIL_FROM_NAME="${APP_NAME}"
 
-	MAIL_DRIVER=smtp
-	MAIL_HOST=smtp.gmail.com
-	MAIL_PORT=587
-	MAIL_USERNAME=chisk9@gmail.com
-	MAIL_PASSWORD=clave a generar en la configuracion de google
-	MAIL_ENCRYPTION=tls
-	MAIL_FROM_ADDRESS=chisk9@gmail.com //tu correo
-	MAIL_FROM_NAME="${APP_NAME}"
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=
+AWS_USE_PATH_STYLE_ENDPOINT=false
 
-	AWS_ACCESS_KEY_ID=
-	AWS_SECRET_ACCESS_KEY=
-	AWS_DEFAULT_REGION=us-east-1
-	AWS_BUCKET=
-	AWS_USE_PATH_STYLE_ENDPOINT=false
+PUSHER_APP_ID=
+PUSHER_APP_KEY=
+PUSHER_APP_SECRET=
+PUSHER_APP_CLUSTER=mt1
 
-	PUSHER_APP_ID=
-	PUSHER_APP_KEY=
-	PUSHER_APP_SECRET=
-	PUSHER_APP_CLUSTER=mt1
-
-	MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
-	MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
 ```
 
 Deben ejecutar el comando dentro del proyecto por consola para la creacion de la base de datos y llenar con datos por defecto:
 
 ```sh
-    composer install
-	composer dump-autoload
-	php artisan migrate:install
-	php artisan migrate:fresh --seed
-    usuario admin es: admin@gmail.com
-    password: admin.2022
+composer install
+composer dump-autoload
+    
+php artisan migrate:install
+php artisan migrate:fresh --seed
+    
+usuario admin es: admin@gmail.com
+password: admin.2022
 ```
