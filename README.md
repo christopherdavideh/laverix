@@ -7,39 +7,21 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Laverix
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Web application developed with Laravel 9 and PHP 8.0, the web application allows us to:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Login and logout.
+- Recovery/Change password.
+- Role Management (CRUD). Only admin users.
+- Permission Assignments.
+- Complete user management (CRUD).
+- Notification message of CRUD actions by email.
+- Search for users by first and/or last name.
+- User pagination.
+- Form validations in the backend.
 
-### Laverix
-
-Aplicación web con Laravel 9 con las siguientes funcionalidades requeridas:
-- Inicio de sesión
-- Cerrar sesión
-- Recuperación/Cambio de contraseña
-- Gestión de Roles. (CRUD). Sólo para usuarios administradores
-- Asignación de permisos
-- Gestión completa de usuarios (CRUD). 
-o Nombres
-o Apellidos
-o Teléfono
-o Dirección
-o Fecha de nacimiento
-o Fecha de nacimiento
-o Selección múltiple de Roles
-- Mensaje de notificación de las acciones del CRUD vía email.
-- Búsqueda de usuarios por nombres y/o apellidos.
-- Incluir paginado de usuarios.
-- Incluir un usuario administrador por defecto con permiso para gestionar todo.
-- Realizar validaciones de los formularios en el backend
+![](https://christopherdavideh.com/images/laravel_9.png)
 
 ## Instalacion
 
@@ -118,3 +100,15 @@ php artisan migrate:fresh --seed
 usuario admin es: admin@gmail.com
 password: admin.2022
 ```
+
+## About Laravel
+
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
